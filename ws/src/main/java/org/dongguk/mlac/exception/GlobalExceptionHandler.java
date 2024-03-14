@@ -1,6 +1,7 @@
 package org.dongguk.mlac.exception;
 
 import lombok.extern.slf4j.Slf4j;
+import org.dongguk.mlac.dto.common.ResponseDto;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
