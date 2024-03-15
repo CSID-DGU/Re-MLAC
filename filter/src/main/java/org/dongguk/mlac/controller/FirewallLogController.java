@@ -16,6 +16,7 @@ public class FirewallLogController {
 
     @RequestMapping("/api/v1/filter")
     public ResponseDto<?> filter(@RequestBody FilterRequestDto filterRequestDto) {
-        return ResponseDto.ok(firewallLogService.filter(filterRequestDto));
+        firewallLogService.filter(filterRequestDto);
+        return ResponseDto.ok(null);
     }
 }
