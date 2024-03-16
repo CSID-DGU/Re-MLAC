@@ -1,6 +1,5 @@
 from fastapi import HTTPException
-from app.core.config import DataFrameSingleton
-from app.utils import category_label
+from app.core.config import DataFrameSingleton, DataBodySingleton
 import pandas as pd
 import requests
 import os
@@ -8,7 +7,7 @@ import os
 from app.utils.custom_logger import CustomLogger
 
 dataframe_singleton = DataFrameSingleton()
-dataframe_body_singleton = DataFrameSingleton()
+dataframe_body_singleton = DataBodySingleton()
 logger = CustomLogger()
 
 
@@ -20,9 +19,17 @@ def read_csv_file(file_path: str):
         raise HTTPException(status_code=500, detail=f"Error reading CSV file: {str(e)}")
 
 
+def read_excel_file(file_path: str):
+    try:
+        df = pd.read_excel(file_path)
+        return df
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error reading Excel file: {str(e)}")
+
+
 def initialize_dataframe(file_path: str, body_path: str):
     dataframe_singleton.data = read_csv_file(file_path)
-    dataframe_body_singleton.data = read_csv_file(body_path)
+    dataframe_body_singleton.data = read_excel_file(body_path)
 
 
 def post_data_async(url: str, data: dict):
@@ -44,13 +51,31 @@ def post_data():
         raise HTTPException(status_code=500, detail="CSV file not loaded")
 
     random_row = dataframe.sample(n=1)
-
     ip = random_row.iloc[0]['srcip']
     port = random_row.iloc[0]['sport'].astype(str)
     index = int(random_row.iloc[0]['category_label'])
+
+    category_label = [
+        'BENIGN', 'PORTSCAN', 'RECONNAISSANCE', 'WEB_ATTACK_BRUTE_FORCE', 'WEB_ATTACK_XSS', 'WEB_ATTACK_SQL_INJECTION',
+        'HEARTBLEED', 'EXPLOITS', 'FUZZERS', 'FTP_PATATOR', 'SSH_PATATOR', 'BACKDOOR', 'BOT', 'SHELLCODE', 'WORMS',
+        'INFILTRATION', 'DOS_SLOWHTTPTEST', 'DDOS', 'DOS', 'DOS_GOLDENEYE', 'DOS_HULK', 'DOS_SLOWLORIS', 'GENERIC',
+        'ANALYSIS'
+    ]
+
+    body_label = [
+        'WEB_ATTACK_BRUTE_FORCE', 'WEB_ATTACK_XSS', 'WEB_ATTACK_SQL_INJECTION',
+        'FTP_PATATOR', 'SSH_PATATOR', 'BOT', 'INFILTRATION', 'BACKDOOR', 'SHELLCODE', 'EXPLOITS',
+        'FUZZERS', 'WORMS', 'DOS_SLOWHTTPTEST', 'GENERIC', 'ANALYSIS'
+    ]
+
     label = category_label[index]
-    body = dataframe_body[label].sample(n=1)
-    body_json = body.to_json(orient='records')
+
+    if label in body_label:
+        body = dataframe_body.query(f'type == "{label}"').sample(n=1)['attack_content']
+        body_json = body.to_json(orient='records')[1:-1]
+    else:
+        body_json = None
+
     random_row.drop(columns=['srcip', 'sport', "category_label"], inplace=True)
 
     url = os.getenv("POST_URL")
@@ -61,7 +86,7 @@ def post_data():
     response_data = post_data_async(url, {
         "ip": ip,
         "port": port,
-        "body": body_json,
+        "body": [body_json],
         "packet_info": {
             "dur": float(random_row.iloc[0]['dur']),
             "sbytes": float(random_row.iloc[0]['sbytes']),
