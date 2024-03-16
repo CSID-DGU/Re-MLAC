@@ -12,9 +12,11 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
 import org.springframework.batch.item.ItemProcessor;
+import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.JpaPagingItemReader;
-import org.springframework.batch.item.database.builder.JpaPagingItemReaderBuilder;
+import org.springframework.batch.item.NonTransientResourceException;
+import org.springframework.batch.item.ParseException;
+import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -46,8 +48,15 @@ public class PacketResultJobConfig {
 
     @Bean
     @StepScope
-    public JpaPagingItemReader packetResultItemReader() {
-        return new JpaPagingItemReaderBuilder<PacketResult>().build();
+    public ItemReader<PacketResult> packetResultItemReader() {
+        return new ItemReader<PacketResult>() {
+            @Override
+            public PacketResult read()
+                    throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+                // TODO: data 반환하도록 수정
+                return null;
+            }
+        };
     }
 
     @Bean
