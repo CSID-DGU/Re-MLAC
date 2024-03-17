@@ -32,19 +32,24 @@ public class Attack {
     @Enumerated(EnumType.STRING)
     private EAttackType attackType;
 
+    @Column(name = "result")
+    private boolean result;
+
     @Builder
-    public Attack(String ip, String port, EAttackType attackType) {
+    public Attack(String ip, String port, EAttackType attackType, boolean result) {
         this.ip = ip;
         this.port = port;
         this.attackType = attackType;
         this.attackedAt = LocalDateTime.now();
+        this.result = result;
     }
 
-    public static Attack createAttack(String ip, String port, EAttackType attackType) {
+    public static Attack createAttack(String ip, String port, EAttackType attackType, boolean result) {
         return Attack.builder()
                 .ip(ip)
                 .port(port)
                 .attackType(attackType)
+                .result(result)
                 .build();
     }
 
