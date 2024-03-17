@@ -7,6 +7,8 @@ import org.dongguk.mlac.domain.WebServerLog;
 import org.dongguk.mlac.dto.request.FilterRequestDto;
 import org.dongguk.mlac.dto.type.EAttackType;
 import org.dongguk.mlac.dto.type.EBodyRegex;
+import org.dongguk.mlac.dto.type.ErrorCode;
+import org.dongguk.mlac.exception.CommonException;
 import org.dongguk.mlac.repository.WebServerLogRepository;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +31,15 @@ public class WebServerLogService {
 
         if (XSS_MATCHER.find()) {
             webServerLog = WebServerLog.createWebServerLog(filterRequestDto, EAttackType.WEB_ATTACK_XSS, true);
+            webServerLogRepository.save(webServerLog);
+            throw new CommonException(ErrorCode.INSECURE_BODY);
         } else if (SQL_INJECTION_MATCHER.find()) {
-            webServerLog = WebServerLog.createWebServerLog(filterRequestDto, EAttackType.WEB_ATTACK_SQL_INJECTION, true);
+            webServerLog = WebServerLog.createWebServerLog(filterRequestDto, EAttackType.WEB_ATTACK_SQL_INJECTION,
+                    true);
+            webServerLogRepository.save(webServerLog);
+            throw new CommonException(ErrorCode.INSECURE_BODY);
         }
-        else {
-            webServerLog = WebServerLog.createWebServerLog(filterRequestDto, EAttackType.BENIGN, false);
-        }
+        webServerLog = WebServerLog.createWebServerLog(filterRequestDto, EAttackType.BENIGN, false);
 
         webServerLogRepository.save(webServerLog);
     }
