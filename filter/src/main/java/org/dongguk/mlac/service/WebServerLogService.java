@@ -25,16 +25,17 @@ public class WebServerLogService {
         Matcher SQL_INJECTION_MATCHER = SQL_INJECTION_PATTERN.matcher(body);
         // TODO: Heartbleed 취약점 검사 추가
 
+        WebServerLog webServerLog;
+
         if (XSS_MATCHER.find()) {
-            WebServerLog webServerLog = WebServerLog.createWebServerLog(filterRequestDto, EAttackType.WEB_ATTACK_XSS, true);
-            webServerLogRepository.save(webServerLog);
+            webServerLog = WebServerLog.createWebServerLog(filterRequestDto, EAttackType.WEB_ATTACK_XSS, true);
         } else if (SQL_INJECTION_MATCHER.find()) {
-            WebServerLog webServerLog = WebServerLog.createWebServerLog(filterRequestDto, EAttackType.WEB_ATTACK_SQL_INJECTION, true);
-            webServerLogRepository.save(webServerLog);
+            webServerLog = WebServerLog.createWebServerLog(filterRequestDto, EAttackType.WEB_ATTACK_SQL_INJECTION, true);
         }
         else {
-            WebServerLog webServerLog = WebServerLog.createWebServerLog(filterRequestDto, EAttackType.BENIGN, false);
-            webServerLogRepository.save(webServerLog);
+            webServerLog = WebServerLog.createWebServerLog(filterRequestDto, EAttackType.BENIGN, false);
         }
+
+        webServerLogRepository.save(webServerLog);
     }
 }
