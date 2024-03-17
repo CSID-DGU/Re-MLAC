@@ -28,25 +28,13 @@ public class FirewallLogService {
 
     private final FirewallLogRepository firewallLogRepository;
 
-    private final RestClientUtil restClientUtil;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-
-    @Value("${ai-server}")
-    private String aiServerUrl;
-
-    @Value("${fw-server}")
-    private String fwServerUrl;
 
     public void filter(FilterRequestDto filterRequestDto) {
-        Optional<FirewallLog> firewallLogOptional = firewallLogRepository.findByIpAndPort(filterRequestDto.ip(), filterRequestDto.port());
+        Optional<FirewallLog> firewallLogOptional = firewallLogRepository.findByIpAndPort(filterRequestDto.ip(),
+                filterRequestDto.port());
 
         if (firewallLogOptional.isPresent()) {
             throw new CommonException(ErrorCode.BANNED_BAD_REQUEST);
-        } else {
-            LocalDateTime nowWithoutNanos = LocalDateTime.now().withNano(0);
-            JSONObject aiServerRequest = filterRequestDto.toJsonObject(formatter.format(nowWithoutNanos));
-            var fwServerRequest = AiResponseDto.fromJsonObject(restClientUtil.sendPostRequest(aiServerUrl, aiServerRequest));
-            restClientUtil.sendPostRequest(fwServerUrl, fwServerRequest);
         }
     }
 }
