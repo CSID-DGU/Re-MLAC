@@ -50,4 +50,15 @@ public record AiResponseDto(
                         .toJsonObject()
                         ;
         }
+
+        public static AiResponseDto fromJsonToDto(JSONObject jsonObject) {
+                return AiResponseDto.builder()
+                        .ip(jsonObject.getAsString("ip"))
+                        .port(jsonObject.getAsString("port"))
+                        .body((List<Map<String, String>>) jsonObject.get("body"))
+                        .timestamp(jsonObject.getAsString("timestamp"))
+                        .attack_type(jsonObject.getAsString("attack_type"))
+                        .build()
+                        ;
+        }
 }
