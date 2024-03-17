@@ -34,7 +34,7 @@ public class AiServerLogService {
 
         AiResponseDto aiResponse = AiResponseDto.fromJsonToDto(aiResponseJson);
 
-        if (aiResponse.attack_type().equals(EAttackType.BENIGN)) {
+        if (aiResponse.attack_type().equals(EAttackType.BENIGN.getType())) {
             AiServerLog aiServerLog = AiServerLog.createAiServerLog(aiResponse, false);
             aiServerLogRepository.save(aiServerLog);
         }
