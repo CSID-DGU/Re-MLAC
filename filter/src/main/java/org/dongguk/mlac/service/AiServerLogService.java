@@ -9,6 +9,9 @@ import org.dongguk.mlac.domain.AiServerLog;
 import org.dongguk.mlac.dto.request.FilterRequestDto;
 import org.dongguk.mlac.dto.response.AiResponseDto;
 import org.dongguk.mlac.dto.type.EAttackType;
+import org.dongguk.mlac.dto.type.ErrorCode;
+import org.dongguk.mlac.exception.CommonException;
+import org.dongguk.mlac.repository.AiServerLogRepository;
 import org.dongguk.mlac.util.RestClientUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,8 @@ import org.springframework.stereotype.Service;
 public class AiServerLogService {
     private final RestClientUtil restClientUtil;
     private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+    private final AiServerLogRepository aiServerLogRepository;
     @Value("${ai-server}")
     private String aiServerUrl;
 
@@ -31,9 +36,12 @@ public class AiServerLogService {
 
         if (aiResponse.attack_type().equals(EAttackType.BENIGN)) {
             AiServerLog aiServerLog = AiServerLog.createAiServerLog(aiResponse, false);
+            aiServerLogRepository.save(aiServerLog);
         }
         else {
             AiServerLog aiServerLog = AiServerLog.createAiServerLog(aiResponse, true);
+            aiServerLogRepository.save(aiServerLog);
+            throw new CommonException(ErrorCode.INSECURE_REQUEST);
         }
 
         return AiResponseDto.fromJsonObject(aiResponseJson);
