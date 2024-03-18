@@ -5,61 +5,28 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.dongguk.mlac.dto.request.FilterRequestDto;
 import org.dongguk.mlac.dto.type.EAttackType;
 
-import java.time.LocalDateTime;
-
-@Entity
 @Getter
-@Table(name = "web_server_logs")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+@Table(name = "web_server_logs")
 public class WebServerLog {
+
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "ip")
-    private String ip;
+    @Column(name = "regex", nullable = false)
+    private String regex;
 
-    @Column(name = "port")
-    private String port;
-
-    @Column(name = "attacked_at")
-    private LocalDateTime attackedAt;
-
-    @Column(name = "attack_type")
     @Enumerated(EnumType.STRING)
+    @Column(name = "attacked_at", nullable = false)
     private EAttackType attackType;
-
-    @Column(name = "result")
-    private boolean result;
-
     @Builder
-    public WebServerLog(String ip, String port, EAttackType attackType, boolean result) {
-        this.ip = ip;
-        this.port = port;
+    public WebServerLog(String regex, EAttackType attackType) {
+        this.regex = regex;
         this.attackType = attackType;
-        this.attackedAt = LocalDateTime.now();
-        this.result = result;
-    }
-
-    public static WebServerLog createWebServerLog(String ip, String port, EAttackType attackType, boolean result) {
-        return WebServerLog.builder()
-                .ip(ip)
-                .port(port)
-                .attackType(attackType)
-                .result(result)
-                .build();
-    }
-
-    public static WebServerLog createWebServerLog(FilterRequestDto filterRequestDto, EAttackType attackType, boolean result) {
-        return WebServerLog.builder()
-                .ip(filterRequestDto.ip())
-                .port(filterRequestDto.port())
-                .attackType(attackType)
-                .result(result)
-                .build();
     }
 }

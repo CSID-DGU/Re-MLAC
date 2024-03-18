@@ -26,6 +26,10 @@ public class FirewallLog {
     @Column(name = "port")
     private String port;
 
+    @Column(name = "attack_type")
+    @Enumerated(EnumType.STRING)
+    private EAttackType attackType;
+
     @Column(name = "attacked_at", nullable = false)
     private LocalDateTime attackedAt;
 
@@ -33,13 +37,15 @@ public class FirewallLog {
     public FirewallLog(String ip, String port, EAttackType attackType) {
         this.ip = ip;
         this.port = port;
+        this.attackType = attackType;
         this.attackedAt = LocalDateTime.now();
     }
 
-    public static FirewallLog createFirewallLong(String ip, String port) {
+    public static FirewallLog createFirewallLong(String ip, String port, EAttackType attackType) {
         return FirewallLog.builder()
                 .ip(ip)
                 .port(port)
+                .attackType(attackType)
                 .build();
     }
 }

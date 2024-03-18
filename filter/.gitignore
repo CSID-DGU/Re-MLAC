@@ -263,5 +263,3 @@ gradle-app.setting
 
 src/main/resources/application.yml
 deploy.sh
-
-.idea/*

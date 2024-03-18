@@ -22,6 +22,7 @@ public class RestClientUtil {
                 .retrieve()
                 .toEntity(Map.class).getBody());
 
+        restClient.get().uri(url).retrieve().toEntity(Map.class).getBody();
         return new JSONObject(response);
     }
 }

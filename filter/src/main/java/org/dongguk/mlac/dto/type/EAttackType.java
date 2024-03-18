@@ -2,7 +2,8 @@ package org.dongguk.mlac.dto.type;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.dongguk.mlac.exception.CommonException;
+
+import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
@@ -34,12 +35,10 @@ public enum EAttackType {
 
     private final String type;
 
-    public static EAttackType fromString(String text) {
-        for (EAttackType b : EAttackType.values()) {
-            if (b.type.equalsIgnoreCase(text)) {
-                return b;
-            }
-        }
-        throw new CommonException(ErrorCode.INVALID_ARGUMENT);
+    public static EAttackType fromString(String type) {
+        return Arrays.stream(EAttackType.values())
+                .filter(e -> e.type.equals(type))
+                .findFirst()
+                .orElse(null);
     }
 }

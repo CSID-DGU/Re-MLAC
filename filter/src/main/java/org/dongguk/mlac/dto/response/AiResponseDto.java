@@ -11,7 +11,7 @@ import java.util.Map;
 public record AiResponseDto(
         String ip,
         String port,
-        String body,
+        List<Map<String, String>> body,
 
         String timestamp,
         @JsonProperty("attack_type")
@@ -43,22 +43,11 @@ public record AiResponseDto(
                 return AiResponseDto.builder()
                         .ip(jsonObject.getAsString("ip"))
                         .port(jsonObject.getAsString("port"))
-                        .body(jsonObject.getAsString("body"))
+                        .body((List<Map<String, String>>) jsonObject.get("body"))
                         .timestamp(jsonObject.getAsString("timestamp"))
                         .attack_type(jsonObject.getAsString("attack_type"))
                         .build()
                         .toJsonObject()
-                        ;
-        }
-
-        public static AiResponseDto fromJsonToDto(JSONObject jsonObject) {
-                return AiResponseDto.builder()
-                        .ip(jsonObject.getAsString("ip"))
-                        .port(jsonObject.getAsString("port"))
-                        .body(jsonObject.getAsString("body"))
-                        .timestamp(jsonObject.getAsString("timestamp"))
-                        .attack_type(jsonObject.getAsString("attack_type"))
-                        .build()
                         ;
         }
 }

@@ -11,7 +11,7 @@ import java.util.Map;
 public record FilterRequestDto(
         String ip,
         String port,
-        String body,
+        List<Map<String, String>> body,
         @JsonProperty("packet_info")
         Map<String, String> packetInfo
 ) {
