@@ -1,7 +1,7 @@
 package org.dongguk.mlac.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.dongguk.mlac.dto.AnalysisResultDto;
+import org.dongguk.mlac.dto.request.AnalysisResultDto;
 import org.dongguk.mlac.dto.common.ResponseDto;
 import org.dongguk.mlac.service.AttackService;
 import org.springframework.web.bind.annotation.PostMapping;
