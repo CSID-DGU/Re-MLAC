@@ -22,7 +22,7 @@ public class WebServerLog {
     private String regex;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "attacked_at", nullable = false)
+    @Column(name = "attack_type", nullable = false)
     private EAttackType attackType;
     @Builder
     public WebServerLog(String regex, EAttackType attackType) {

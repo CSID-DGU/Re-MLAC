@@ -20,7 +20,7 @@ public class WebServerLog {
     @Column(name = "regex", nullable = false)
     private String regex;
 
-    @Column(name = "attack_type", nullable = false)
+    @Column(name = "attack_type")
     @Enumerated(EnumType.STRING)
     private EAttackType attackType;
 

@@ -1,7 +1,10 @@
+import json
+
 from fastapi import HTTPException
 from app.core.config import DataFrameSingleton, DataBodySingleton
 import pandas as pd
 import requests
+from pykson import JsonObject, StringField
 import os
 
 from app.utils.custom_logger import CustomLogger
@@ -40,6 +43,11 @@ def post_data_async(url: str, data: dict):
         raise HTTPException(status_code=500, detail=f"Error sending POST request: {str(e)}")
 
 
+class BodyJsonObject(JsonObject):
+    query = StringField()
+    database = StringField()
+
+
 def post_data():
     dataframe = dataframe_singleton.data
     dataframe_body = dataframe_body_singleton.data
@@ -70,11 +78,14 @@ def post_data():
 
     label = category_label[index]
 
-    if label in body_label:
-        body = dataframe_body.query(f'type == "{label}"').sample(n=1)['attack_content']
-        body_json = body.to_json(orient='records')[1:-1]
-    else:
-        body_json = None
+    # if label in body_label:
+    #     body = dataframe_body.query(f'type == "{label}"').sample(n=1)['attack_content']
+    #     print(body)
+    #     body_json = [json.dumps(body.to_dict())]
+    # else:
+    #     body_json = [None]
+    #
+    # print(body_json)
 
     random_row.drop(columns=['srcip', 'sport', "category_label"], inplace=True)
 
@@ -86,7 +97,10 @@ def post_data():
     response_data = post_data_async(url, {
         "ip": ip,
         "port": port,
-        "body": [body_json],
+        "body": [{
+            "query": "SELECT * FROM confidential_table",
+            "database": "internal_db"
+        }],
         "packet_info": {
             "dur": float(random_row.iloc[0]['dur']),
             "sbytes": float(random_row.iloc[0]['sbytes']),

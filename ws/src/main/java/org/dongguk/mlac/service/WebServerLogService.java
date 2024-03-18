@@ -48,6 +48,6 @@ public class WebServerLogService {
     }
 
     private void saveAttackLog(EAttackType attackType, String regexPattern) {
-        attackRepository.save(WebServerLog.createWebServerLog(regexPattern, attackType));
+        attackRepository.save(WebServerLog.createWebServerLog(regexPattern, EAttackType.WEB_ATTACK_SQL_INJECTION));
     }
 }

@@ -16,6 +16,6 @@ public class WebServerLogController {
     @PostMapping("/api/v1/attack-log")
     public ResponseDto<?> saveAttackLog(@RequestBody AnalysisResultDto analysisResultDto){
         webServerLogService.preventAttack(analysisResultDto);
-        return ResponseDto.ok(null);
+        return ResponseDto.ok("success");
     }
 }

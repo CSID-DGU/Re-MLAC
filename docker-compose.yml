@@ -1,0 +1,65 @@
+version: "3"
+
+services:
+  filter-server:
+    build:
+      context: ./filter
+      dockerfile: Dockerfile
+    container_name: filter-server
+    ports:
+      - "8080:8080"
+    environment:
+      TZ: "Asia/Seoul"
+    restart: always
+    networks:
+      - mlac
+    depends_on:
+      - mysql-db
+      - ws-server
+      - fw-server
+
+  fw-server:
+    build:
+      context: ./fw
+      dockerfile: Dockerfile
+    container_name: fw-server
+    ports:
+      - "8081:8080"
+    environment:
+      TZ: "Asia/Seoul"
+    restart: always
+    networks:
+      - mlac
+    depends_on:
+      - mysql-db
+
+  ws-server:
+    build:
+      context: ./ws
+      dockerfile: Dockerfile
+    container_name: ws-server
+    ports:
+      - "8082:8080"
+    environment:
+      TZ: "Asia/Seoul"
+    restart: always
+    networks:
+      - mlac
+    depends_on:
+      - mysql-db
+
+  mysql-db:
+    image: mysql:8.0.22
+    container_name: mysql-db
+    platform: linux/amd64
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: qwer1234
+      MYSQL_DATABASE: mlac
+    networks:
+      - mlac
+
+networks:
+  mlac:
+    external: true
