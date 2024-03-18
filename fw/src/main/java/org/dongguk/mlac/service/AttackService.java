@@ -1,7 +1,7 @@
 package org.dongguk.mlac.service;
 
 import lombok.RequiredArgsConstructor;
-import org.dongguk.mlac.domain.Attack;
+import org.dongguk.mlac.domain.FirewallLog;
 import org.dongguk.mlac.dto.request.AnalysisResultDto;
 import org.dongguk.mlac.dto.type.EAttackType;
 import org.dongguk.mlac.repository.AttackRepository;
@@ -19,7 +19,7 @@ public class AttackService {
 
     @Transactional
     public void saveAttackLog(AnalysisResultDto analysisResultDto){
-        attackRepository.save(Attack.builder()
+        attackRepository.save(FirewallLog.builder()
                         .ip(analysisResultDto.ip())
                         .port(analysisResultDto.port())
                         .attackedAt(LocalDateTime.parse(analysisResultDto.timestamp(), formatter))

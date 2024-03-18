@@ -13,22 +13,27 @@ import java.time.LocalDateTime;
 @Getter
 @Table(name = "attack")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Attack {
+public class FirewallLog {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "ip")
     private String ip;
+
     @Column(name = "port")
     private String port;
-    @Column(name = "attacked_at")
-    private LocalDateTime attackedAt;
+
     @Column(name = "attack_type")
     @Enumerated(EnumType.STRING)
     private EAttackType attackType;
+
+    @Column(name = "attacked_at", nullable = false)
+    private LocalDateTime attackedAt;
+
     @Builder
-    public Attack(String ip, String port, LocalDateTime attackedAt, EAttackType attackType) {
+    public FirewallLog(String ip, String port, LocalDateTime attackedAt, EAttackType attackType) {
         this.ip = ip;
         this.port = port;
         this.attackedAt = attackedAt;
