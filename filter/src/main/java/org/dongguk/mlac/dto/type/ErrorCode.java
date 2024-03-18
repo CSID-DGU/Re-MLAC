@@ -29,6 +29,8 @@ public enum ErrorCode {
     BAD_REQUEST_PARAMETER(40005, HttpStatus.BAD_REQUEST, "잘못된 요청 파라미터입니다."),
     BAD_REQUEST_JSON(40006, HttpStatus.BAD_REQUEST, "잘못된 JSON 형식입니다."),
     BANNED_BAD_REQUEST(40007, HttpStatus.BAD_REQUEST, "IP 주소가 차단되었습니다."),
+    INSECURE_BODY(40008, HttpStatus.BAD_REQUEST, "보안 상 안전하지 않은 요청 바디입니다."),
+    INSECURE_REQUEST(40009, HttpStatus.BAD_REQUEST, "보안 상 안전하지 않다고 판단되는 요청입니다."),
 
     // Gone Error
     GONE_SHARED_URL(41001, HttpStatus.GONE, "해당 공유 URL이 만료되었습니다."),
@@ -51,6 +53,7 @@ public enum ErrorCode {
 
     // Internal Server Error
     INTERNAL_SERVER_ERROR(50000, HttpStatus.INTERNAL_SERVER_ERROR, "서버 내부 에러입니다."),
+    AI_SERVER_ERROR(50001, HttpStatus.INTERNAL_SERVER_ERROR, "AI 서버 내부 에러입니다."),
     UPLOAD_FILE_ERROR(50001, HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드에 실패하였습니다.");
 
     private final Integer code;

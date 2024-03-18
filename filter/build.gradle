@@ -25,8 +25,13 @@ dependencies {
 
     // Spring
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // JSON
+    implementation group: 'net.minidev', name: 'json-smart', version: '2.5.0'
+
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'
