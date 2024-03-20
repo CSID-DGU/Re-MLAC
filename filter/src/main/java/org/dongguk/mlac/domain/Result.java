@@ -21,6 +21,7 @@ public class Result {
     private Long id;
 
     @Column(name = "attacked_at", nullable = false)
+    @Enumerated(EnumType.STRING)
     private ELocation attackedAt;
 
     @Column(name = "created_at", nullable = false)

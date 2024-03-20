@@ -2,7 +2,6 @@ package org.dongguk.mlac.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
-import org.dongguk.mlac.dto.type.EAttackType;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +21,6 @@ public record AnalysisResultDto (
         String timestamp,
 
         @JsonProperty("attackType")
-        EAttackType attackType
+        String attackType
 ) {
 }
