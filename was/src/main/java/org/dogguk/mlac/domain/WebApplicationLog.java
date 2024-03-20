@@ -1,29 +1,27 @@
-package org.dongguk.mlac.domain;
+package org.dogguk.mlac.domain;
+
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.dongguk.mlac.dto.type.EAttackType;
+import org.dogguk.mlac.dto.type.EAttackType;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "firewall_logs")
+@Table(name = "web_application_logs")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class FirewallLog {
+public class WebApplicationLog {
+
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "ip")
-    private String ip;
-
-    @Column(name = "port")
-    private String port;
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "attack_type")
     @Enumerated(EnumType.STRING)
@@ -33,10 +31,9 @@ public class FirewallLog {
     private LocalDateTime attackedAt;
 
     @Builder
-    public FirewallLog(String ip, String port, LocalDateTime attackedAt, EAttackType attackType) {
-        this.ip = ip;
-        this.port = port;
-        this.attackedAt = attackedAt;
+    public WebApplicationLog(Long userId, EAttackType attackType, LocalDateTime attackedAt) {
+        this.userId = userId;
         this.attackType = attackType;
+        this.attackedAt = attackedAt;
     }
 }

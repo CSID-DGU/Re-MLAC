@@ -47,6 +47,22 @@ services:
       - mlac
     depends_on:
       - mysql-db
+  
+  was-server:
+    build:
+     context: ./was
+     dockerfile: Dockerfile
+    container_name: was-server
+    ports:
+     - "8083:8080"
+    environment:
+      TZ: "Asia/Seoul"
+    restart: always
+    networks:
+      - mlac
+    depends_on:
+      - mysql-db 
+
 
   input-server:
     build:
@@ -59,7 +75,7 @@ services:
     networks:
       - mlac
     volumes:
-      - /Users/kurtyoon/Desktop/data:/app/data
+      - /Users/jjuuuunnii/Desktop/data:/app/data
     depends_on:
       - mysql-db
 

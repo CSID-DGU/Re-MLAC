@@ -20,7 +20,7 @@ public record AnalysisResultDto (
         @JsonProperty("timestamp")
         String timestamp,
 
-        @JsonProperty("attackType")
+        @JsonProperty("attack_type")
         String attackType
 ) {
 }

@@ -1,10 +1,10 @@
-package org.donnguk.was;
+package org.dogguk.mlac.was;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class WasApplicationTests {
+class MlacApplicationTests {
 
 	@Test
 	void contextLoads() {
