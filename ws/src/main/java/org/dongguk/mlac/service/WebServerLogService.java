@@ -20,8 +20,12 @@ public class WebServerLogService {
     private final AttackRegexRepository regexRepository;
 
     public void preventAttack(AnalysisResultDto analysisResultDto) {
-        EAttackType attackType = analysisResultDto.attackType();
+        String attackType = analysisResultDto.attackType();
         List<AttackRegex> regexes = regexRepository.findAll();
+
+        if ("BENIGN".equals(attackType)) {
+            return;
+        }
 
         for (AttackRegex regex : regexes) {
             if (containsAttack(analysisResultDto.body(), regex.getRegex())) {
@@ -47,7 +51,7 @@ public class WebServerLogService {
         return attackRepository.existsByRegex(regexPattern);
     }
 
-    private void saveAttackLog(EAttackType attackType, String regexPattern) {
-        attackRepository.save(WebServerLog.createWebServerLog(regexPattern, EAttackType.WEB_ATTACK_SQL_INJECTION));
+    private void saveAttackLog(String attackType, String regexPattern) {
+        attackRepository.save(WebServerLog.createWebServerLog(regexPattern, Enum.valueOf(EAttackType.class, attackType)));
     }
 }

@@ -19,6 +19,11 @@ public class AttackService {
 
     @Transactional
     public void saveAttackLog(AnalysisResultDto analysisResultDto){
+
+        if ("BENIGN".equals(analysisResultDto.attackType())) {
+            return ;
+        }
+
         attackRepository.save(FirewallLog.builder()
                         .ip(analysisResultDto.ip())
                         .port(analysisResultDto.port())
