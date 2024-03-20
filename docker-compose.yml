@@ -48,6 +48,21 @@ services:
     depends_on:
       - mysql-db
 
+  input-server:
+    build:
+      context: ./input
+      dockerfile: Dockerfile
+    container_name: input-server
+    ports:
+      - "8000:8000"
+    restart: always
+    networks:
+      - mlac
+    volumes:
+      - /Users/kurtyoon/Desktop/data:/app/data
+    depends_on:
+      - mysql-db
+
   mysql-db:
     image: mysql:8.0.22
     container_name: mysql-db
