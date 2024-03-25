@@ -3,6 +3,7 @@ package org.dogguk.mlac.controller;
 import lombok.RequiredArgsConstructor;
 import org.dogguk.mlac.dto.common.ResponseDto;
 import org.dogguk.mlac.dto.request.FilterRequestDto;
+import org.dogguk.mlac.service.UserService;
 import org.dogguk.mlac.service.WebApplicationLogService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class WebApplicationLogController {
 
     private final WebApplicationLogService webApplicationLogService;
+    private final UserService userService;
 
     @PostMapping("/web-application-log")
     public ResponseDto<?> saveWebApplicationLog(@RequestBody FilterRequestDto filterRequestDto){
         webApplicationLogService.saveWebApplicationLog(filterRequestDto);
+        userService.updateUserBlock(filterRequestDto);
         return ResponseDto.ok(null);
     }
 
