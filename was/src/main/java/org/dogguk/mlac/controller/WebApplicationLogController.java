@@ -16,7 +16,7 @@ public class WebApplicationLogController {
 
     private final WebApplicationLogService webApplicationLogService;
 
-    @PostMapping("/web-application-log")
+    @PostMapping("/attack-log")
     public ResponseDto<?> saveWebApplicationLog(@RequestBody FilterRequestDto filterRequestDto){
         webApplicationLogService.saveWebApplicationLog(filterRequestDto);
         return ResponseDto.ok(null);
