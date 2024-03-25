@@ -4,3 +4,7 @@ category_label = [
     'INFILTRATION', 'DOS_SLOWHTTPTEST', 'DDOS', 'DOS', 'DOS_GOLDENEYE', 'DOS_HULK', 'DOS_SLOWLORIS', 'GENERIC',
     'ANALYSIS'
 ]
+
+
+def get_category_label() -> list:
+    return category_label
