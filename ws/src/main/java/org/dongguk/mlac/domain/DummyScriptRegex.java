@@ -9,7 +9,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "dummy_script_regexes")
+@Table(name = "dummy_script_regexes", uniqueConstraints = {
+        @UniqueConstraint(
+                columnNames = {"regex_id", "dummy_script_id"},
+                name = "dummy_script_regexes_unique_constraint"
+        )
+})
 public class DummyScriptRegex {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

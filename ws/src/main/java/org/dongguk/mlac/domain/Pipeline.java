@@ -10,7 +10,10 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "pipelines", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"regex"})
+        @UniqueConstraint(
+                columnNames = {"regex"},
+                name = "pipelines_unique_constraint"
+        )
 })
 public class Pipeline {
     @Id
