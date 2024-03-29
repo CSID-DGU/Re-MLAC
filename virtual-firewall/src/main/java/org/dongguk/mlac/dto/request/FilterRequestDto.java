@@ -1,0 +1,18 @@
+package org.dongguk.mlac.dto.request;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import org.dongguk.mlac.dto.type.EAttack;
+
+@Builder
+public record FilterRequestDto(
+        @JsonProperty("attack_type")
+        EAttack attackType,
+
+        @JsonProperty("ip")
+        String ip,
+
+        @JsonProperty("port")
+        String port
+) {
+}

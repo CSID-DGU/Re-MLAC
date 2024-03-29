@@ -1,9 +1,26 @@
 version: "3"
 
 services:
+  automatic-input:
+    build:
+      context: ./automatic-input
+      dockerfile: Dockerfile
+    image: re-mlac-automatic-input
+    container_name: automatic-input
+    ports:
+      - "8000:8000"
+    restart: always
+    networks:
+      - mlac
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - mysql-db
+      - origin-server
+
   origin-server:
     build:
-      context: ./filter
+      context: ./origin-server
       dockerfile: Dockerfile
     image: re-mlac-origin-server
     container_name: origin-server
@@ -22,7 +39,7 @@ services:
 
   virtual-firewall:
     build:
-      context: ./fw
+      context: ./virtual-firewall
       dockerfile: Dockerfile
     image: re-mlac-virtual-firewall
     container_name: virtual-firewall
@@ -38,7 +55,7 @@ services:
 
   virtual-web-server:
     build:
-      context: ./ws
+      context: ./virtual-web-server
       dockerfile: Dockerfile
     image: re-mlac-virtual-web-server
     container_name: virtual-webserver
@@ -54,7 +71,7 @@ services:
   
   virtual-web-application-server:
     build:
-      context: ./was
+      context: ./virtual-web-application-server
       dockerfile: Dockerfile
     image: re-mlac-virtual-web-application-server
     container_name: virtual-web-application-server
@@ -65,21 +82,6 @@ services:
       - mlac
     ports:
       - "8083:8080"
-    depends_on:
-      - mysql-db
-
-  input-server:
-    build:
-      context: ./input
-      dockerfile: Dockerfile
-    container_name: input-server
-    ports:
-      - "8000:8000"
-    restart: always
-    networks:
-      - mlac
-    volumes:
-      - ../data:/app/data
     depends_on:
       - mysql-db
 
@@ -94,8 +96,14 @@ services:
     volumes:
       - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      - mlac
+      mlac:
+        ipv4_address: 172.20.0.2
 
 networks:
   mlac:
     driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/24
+          gateway: 172.20.0.1

@@ -2,44 +2,44 @@
 
 # Stop and remove all container
 docker compose down
-docker rmi re-mlac-input-server
+docker rmi re-mlac-automatic-input
 docker rmi re-mlac-origin-server
 docker rmi re-mlac-virtual-firewall
 docker rmi re-mlac-virtual-web-server
 docker rmi re-mlac-virtual-web-application-server
 
-rm -rf filter/src/main/resources
-rm -rf fw/src/main/resources
-rm -rf ws/src/main/resources
-rm -rf was/src/main/resources
-rm -rf input/.env
+rm -rf automatic-input/.env
+rm -rf origin-server/src/main/resources
+rm -rf virtual-firewall/src/main/resources
+rm -rf virtual-web-server/src/main/resources
+rm -rf virtual-web-application-server/src/main/resources
 
 # Make the environment file
-mkdir -p filter/src/main/resources
-mkdir -p fw/src/main/resources
-mkdir -p ws/src/main/resources
-mkdir -p was/src/main/resources
+mkdir -p origin-server/src/main/resources
+mkdir -p virtual-firewall/src/main/resources
+mkdir -p virtual-web-server/src/main/resources
+mkdir -p virtual-web-application-server/src/main/resources
 
-cp -r properties/origin/ filter/src/main/resources
-cp -r properties/virtual/ fw/src/main/resources
-cp -r properties/virtual/ ws/src/main/resources
-cp -r properties/virtual/ was/src/main/resources
-cp properties/input/.env input
+cp properties/automatic/.env automatic-input
+cp -r properties/origin/ origin-server/src/main/resources
+cp -r properties/virtual/ virtual-firewall/src/main/resources
+cp -r properties/virtual/ virtual-web-server/src/main/resources
+cp -r properties/virtual/ virtual-web-application-server/src/main/resources
 
 # Build the project
-cd filter
+cd origin-server
 ./gradlew clean build -x test
 cd ..
 
-cd ws
+cd virtual-firewall
 ./gradlew clean build -x test
 cd ..
 
-cd fw
+cd virtual-web-server
 ./gradlew clean build -x test
 cd ..
 
-cd was
+cd virtual-web-application-server
 ./gradlew clean build -x test
 cd ..
 
