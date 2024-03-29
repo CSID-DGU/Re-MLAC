@@ -10,10 +10,11 @@ class CustomLogger:
         self.logger.setLevel(level)
         formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
-        ch = logging.StreamHandler()
-        ch.setLevel(level)
-        ch.setFormatter(formatter)
-        self.logger.addHandler(ch)
+        if not any(isinstance(handler, logging.StreamHandler) for handler in self.logger.handlers):
+            ch = logging.StreamHandler()
+            ch.setLevel(level)
+            ch.setFormatter(formatter)
+            self.logger.addHandler(ch)
 
     def info(self, message):
         self.logger.info(message)

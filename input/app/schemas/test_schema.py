@@ -8,6 +8,7 @@ from app.schemas.packet_info_schema import PacketInfoSchema
 class RequestSchema(BaseModel):
     ip: str = Field(None, alias="ip")
     port: str = Field(None, alias="port")
+    input_id: int = Field(None, alias="input_id")
     body: BodySchema = Field(None, alias="body")
     packet_info: PacketInfoSchema = Field(None, alias="packet_info")
 

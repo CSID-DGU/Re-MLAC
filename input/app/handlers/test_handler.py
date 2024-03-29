@@ -14,7 +14,7 @@ class TestHandler:
         self.url = os.getenv('POST_URL')
 
     def test_request(self, request_schema: RequestSchema):
-        print(self.url)
+        print(request_schema.json())
         try:
             response = requests.post(self.url, json=request_schema.dict())
             return response.json()

@@ -2,10 +2,14 @@ from datetime import datetime
 from app.configs.data import TestDataSingleton, DataFrameSingleton
 
 from fastapi import HTTPException
+from dotenv import load_dotenv
 import requests
+import os
 
 from app.schemas.test_schema import TestSchema
 from app.utils.label_util import LabelUtil
+
+load_dotenv()
 
 
 class PredictHandler:
@@ -14,6 +18,8 @@ class PredictHandler:
         self.dataframe = DataFrameSingleton()
         self.label_util = LabelUtil()
         self.packet_info_schema = TestSchema()
+        self.url = os.getenv('PRED_URL')
+        self.path = os.getenv('PRED_PATH')
 
     def predict_reqeust(self):
 
@@ -38,10 +44,10 @@ class PredictHandler:
                 'packet_info': self.packet_info_schema.from_dataframe(row)
             }
             try:
-                response = requests.get('http://210.94.179.19:9253/packets/analysis', json=request_data)
+                response = requests.get(self.url, json=request_data)
                 attack_type = response.json().get('attack_type')
                 self.test_data.save(label, attack_type)
             except Exception as e:
                 raise HTTPException(status_code=500, detail=str(e))
 
-        self.test_data.save_to_csv('data/result/web_attack_xss_predict.csv')
+        self.test_data.save_to_csv(self.path)

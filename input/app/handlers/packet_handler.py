@@ -35,6 +35,7 @@ class PacketHandler:
 
         ip = random_row.iloc[0]['srcip']
         port = random_row.iloc[0]['sport'].astype(str)
+        input_id = random_row.iloc[0]['index']
 
         index = int(random_row.iloc[0]['category_label'])
         label = self.label_util.get_category_label()[index]
@@ -64,12 +65,13 @@ class PacketHandler:
         request_data = {
             'ip': ip,
             'port': port,
+            'input_id': input_id,
             'body': body,
             'packet_info': self.packet_info_schema.from_dataframe(random_row.iloc[0])
         }
 
         # self.logger.info(f'attack type is {label}')
-        # self.logger.info(f'pakcet data = {request_data}')
+        # self.logger.info(f'packet data = {request_data}')
 
         try:
             response = requests.post(self.url, json=request_data)
