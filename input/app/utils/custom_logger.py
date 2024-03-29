@@ -2,6 +2,9 @@ import logging
 
 
 class CustomLogger:
+    """
+    Python의 내장 로깅 모듈을 사용하여 로그 메시지를 출력
+    """
     def __init__(self, level=logging.INFO):
         self.logger = logging.getLogger(__name__)
         self.logger.setLevel(level)
