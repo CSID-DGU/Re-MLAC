@@ -20,7 +20,7 @@ public class DummyScript {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "content", nullable = false, updatable = false)
+    @Column(name = "content", length = 1000, nullable = false, updatable = false)
     private String content;
 
     @Column(name = "type", nullable = false, updatable = false)
