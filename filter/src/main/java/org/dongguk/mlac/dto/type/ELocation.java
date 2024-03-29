@@ -10,5 +10,6 @@ public enum ELocation {
     WEB_SERVER("WEB_SERVER"),
     WEB_APPLICATION_SERVER("WEB_APPLICATION_SERVER"),
     NONE("NONE");
-    private final String location;
+
+    private final String value;
 }

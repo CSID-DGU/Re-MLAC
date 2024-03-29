@@ -3,19 +3,26 @@ package org.dongguk.mlac.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import net.minidev.json.JSONObject;
+import org.dongguk.mlac.dto.type.EAttack;
 
-import java.util.List;
 import java.util.Map;
 
 @Builder
 public record AiResponseDto(
+        @JsonProperty("ip")
         String ip,
-        String port,
-        List<Map<String, String>> body,
 
+        @JsonProperty("port")
+        String port,
+
+        @JsonProperty("body")
+        Map<String, Object> body,
+
+        @JsonProperty("timestamp")
         String timestamp,
+
         @JsonProperty("attack_type")
-        String attack_type
+        EAttack attack_type
 ) {
 
         @Override
@@ -39,15 +46,16 @@ public record AiResponseDto(
                 return jsonObject;
         }
 
-        public static JSONObject fromJsonObject(JSONObject jsonObject) {
+        public void setIsBlocked(Boolean isBlocked) {
+                body.put("is_blocked", isBlocked);
+        }
+
+        public static AiResponseDto fromJsonObject(JSONObject jsonObject) {
                 return AiResponseDto.builder()
                         .ip(jsonObject.getAsString("ip"))
                         .port(jsonObject.getAsString("port"))
-                        .body((List<Map<String, String>>) jsonObject.get("body"))
+                        .body((Map<String, Object>) jsonObject.get("body"))
                         .timestamp(jsonObject.getAsString("timestamp"))
-                        .attack_type(jsonObject.getAsString("attack_type"))
-                        .build()
-                        .toJsonObject()
-                        ;
+                        .attack_type(EAttack.fromString(jsonObject.getAsString("attack_type"))).build();
         }
 }

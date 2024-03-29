@@ -31,6 +31,8 @@ services:
       TZ: "Asia/Seoul"
     networks:
       - mlac
+    ports:
+      - "8081:8080"
     depends_on:
       - mysql-db
 
@@ -45,6 +47,8 @@ services:
       TZ: "Asia/Seoul"
     networks:
       - mlac
+    ports:
+      - "8082:8080"
     depends_on:
       - mysql-db
   
@@ -59,23 +63,25 @@ services:
       TZ: "Asia/Seoul"
     networks:
       - mlac
+    ports:
+      - "8083:8080"
     depends_on:
       - mysql-db
 
-  # input-server:
-  #   build:
-  #     context: ./input
-  #     dockerfile: Dockerfile
-  #   container_name: input-server
-  #   ports:
-  #     - "8000:8000"
-  #   restart: always
-  #   networks:
-  #     - mlac
-  #   volumes:
-  #     - ../data:/app/data
-  #   depends_on:
-  #     - mysql-db
+  input-server:
+    build:
+      context: ./input
+      dockerfile: Dockerfile
+    container_name: input-server
+    ports:
+      - "8000:8000"
+    restart: always
+    networks:
+      - mlac
+    volumes:
+      - ../data:/app/data
+    depends_on:
+      - mysql-db
 
   mysql-db:
     image: mysql:8.0.22

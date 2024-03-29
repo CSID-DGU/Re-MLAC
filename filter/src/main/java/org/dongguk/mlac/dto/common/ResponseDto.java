@@ -2,7 +2,7 @@ package org.dongguk.mlac.dto.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.NotNull;
-import org.dongguk.mlac.dto.type.ErrorCode;
+import org.dongguk.mlac.exception.ErrorCode;
 import org.dongguk.mlac.exception.CommonException;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.Nullable;

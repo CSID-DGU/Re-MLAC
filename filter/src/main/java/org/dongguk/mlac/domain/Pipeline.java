@@ -5,28 +5,27 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.dongguk.mlac.dto.type.EAttackType;
 
+@Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
-@Table(name = "web_server_logs")
-public class WebServerLog {
-
+@Table(name = "pipelines", uniqueConstraints = {
+        @UniqueConstraint(
+                columnNames = {"regex"},
+                name = "pipelines_unique_constraint"
+        )
+})
+public class Pipeline {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "regex", nullable = false)
+    @Column(name = "regex", nullable = false, updatable = false)
     private String regex;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "attack_type", nullable = false)
-    private EAttackType attackType;
     @Builder
-    public WebServerLog(String regex, EAttackType attackType) {
+    public Pipeline(String regex) {
         this.regex = regex;
-        this.attackType = attackType;
     }
 }

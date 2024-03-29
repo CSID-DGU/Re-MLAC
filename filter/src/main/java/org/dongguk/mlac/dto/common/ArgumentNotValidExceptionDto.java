@@ -4,7 +4,7 @@ package org.dongguk.mlac.dto.common;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.Getter;
-import org.dongguk.mlac.dto.type.ErrorCode;
+import org.dongguk.mlac.exception.ErrorCode;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 

@@ -9,28 +9,26 @@ import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
-@Table(name = "users", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"username"})
+@Table(name = "ip_states", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"ip"})
 })
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
-public class User {
+public class IPState {
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", nullable = false, updatable = false)
-    private String username;
+    @Column(name = "ip", nullable = false, updatable = false)
+    private String ip;
 
     @Column(name = "is_blocked", nullable = false)
     private Boolean isBlocked;
 
     @Builder
-    public User(
-            String username,
-            Boolean isBlocked
-    ) {
-        this.username = username;
+    public IPState(String ip, Boolean isBlocked) {
+        this.ip = ip;
         this.isBlocked = isBlocked;
     }
 }

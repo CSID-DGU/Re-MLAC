@@ -36,7 +36,7 @@ public class IPStateService {
         IPState ipState = ipStateRepository.findByIp(ip).orElseGet(() -> {
             return ipStateRepository.save(IPState.builder()
                     .ip(ip)
-                    .isBlocked(true).build());
+                    .isBlocked(false).build());
         });
 
         if (ipState.getIsBlocked()) {

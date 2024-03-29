@@ -8,14 +8,22 @@ import java.util.List;
 import java.util.Map;
 
 @Builder
-public record FilterRequestDto(
+public record PacketRequestDto(
+        @JsonProperty("ip")
         String ip,
+
+        @JsonProperty("input_id")
+        Long inputId,
+
+        @JsonProperty("port")
         String port,
-        List<Map<String, String>> body,
+
+        @JsonProperty("body")
+        Map<String, String> body,
+
         @JsonProperty("packet_info")
         Map<String, String> packetInfo
 ) {
-
         public JSONObject toJsonObject(String timestamp) {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("ip", ip);

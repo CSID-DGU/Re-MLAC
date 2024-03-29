@@ -1,4 +1,4 @@
-package org.dongguk.mlac.dto.type;
+package org.dongguk.mlac.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

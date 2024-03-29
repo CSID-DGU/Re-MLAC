@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
-public enum EAttackType {
+public enum EAttack {
     BENIGN("BENIGN"),
     PORTSCAN("PORTSCAN"),
     RECONNAISSANCE("RECONNAISSANCE"),
@@ -35,8 +35,8 @@ public enum EAttackType {
 
     private final String type;
 
-    public static EAttackType fromString(String type) {
-        return Arrays.stream(EAttackType.values())
+    public static EAttack fromString(String type) {
+        return Arrays.stream(EAttack.values())
                 .filter(e -> e.type.equals(type))
                 .findFirst()
                 .orElse(null);

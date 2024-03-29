@@ -2,7 +2,7 @@ package org.dongguk.mlac.dto.common;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import org.dongguk.mlac.dto.type.ErrorCode;
+import org.dongguk.mlac.exception.ErrorCode;
 
 @Getter
 public class ExceptionDto {

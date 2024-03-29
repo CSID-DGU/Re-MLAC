@@ -23,4 +23,14 @@ public class RestClientUtil {
                 .toEntity(Map.class).getBody());
         return new JSONObject(response);
     }
+
+    public JSONObject sendPatchRequest(String url, JSONObject requestBody) {
+        Map<String,Object> response = Objects.requireNonNull(restClient.patch()
+                .uri(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(requestBody.toJSONString())
+                .retrieve()
+                .toEntity(Map.class).getBody());
+        return new JSONObject(response);
+    }
 }
