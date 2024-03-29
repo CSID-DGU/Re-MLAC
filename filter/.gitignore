@@ -261,5 +261,5 @@ gradle-app.setting
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,java,intellij,windows,gradle
 
-src/main/resources/application.yml
-deploy.sh
+application-local.yml
+application-dev.yml

@@ -11,6 +11,10 @@ java {
     sourceCompatibility = '17'
 }
 
+jar {
+    enabled = false
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -22,15 +26,13 @@ repositories {
 }
 
 dependencies {
-
     // Spring
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // JSON
-    implementation group: 'net.minidev', name: 'json-smart', version: '2.5.0'
-
+    implementation 'net.minidev:json-smart:2.5.0'
 
     // Lombok
     compileOnly 'org.projectlombok:lombok'

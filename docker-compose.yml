@@ -1,96 +1,95 @@
 version: "3"
 
 services:
-  filter-server:
+  origin-server:
     build:
       context: ./filter
       dockerfile: Dockerfile
-    container_name: filter-server
+    image: re-mlac-origin-server
+    container_name: origin-server
+    restart: always
     ports:
       - "8080:8080"
     environment:
       TZ: "Asia/Seoul"
-    restart: always
     networks:
       - mlac
     depends_on:
       - mysql-db
-      - ws-server
-      - fw-server
+      - virtual-firewall
+      - virtual-web-server
+      - virtual-web-application-server
 
-  fw-server:
+  virtual-firewall:
     build:
       context: ./fw
       dockerfile: Dockerfile
-    container_name: fw-server
-    ports:
-      - "8081:8080"
+    image: re-mlac-virtual-firewall
+    container_name: virtual-firewall
+    restart: always
     environment:
       TZ: "Asia/Seoul"
-    restart: always
     networks:
       - mlac
     depends_on:
       - mysql-db
 
-  ws-server:
+  virtual-web-server:
     build:
       context: ./ws
       dockerfile: Dockerfile
-    container_name: ws-server
-    ports:
-      - "8082:8080"
+    image: re-mlac-virtual-web-server
+    container_name: virtual-webserver
+    restart: always
     environment:
       TZ: "Asia/Seoul"
-    restart: always
     networks:
       - mlac
     depends_on:
       - mysql-db
   
-  was-server:
+  virtual-web-application-server:
     build:
-     context: ./was
-     dockerfile: Dockerfile
-    container_name: was-server
-    ports:
-     - "8083:8080"
+      context: ./was
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-web-application-server
+    container_name: virtual-web-application-server
+    restart: always
     environment:
       TZ: "Asia/Seoul"
-    restart: always
     networks:
       - mlac
-    depends_on:
-      - mysql-db 
-
-
-  input-server:
-    build:
-      context: ./input
-      dockerfile: Dockerfile
-    container_name: input-server
-    ports:
-      - "8000:8000"
-    restart: always
-    networks:
-      - mlac
-    volumes:
-      - /Users/jjuuuunnii/Desktop/data:/app/data
     depends_on:
       - mysql-db
 
+  # input-server:
+  #   build:
+  #     context: ./input
+  #     dockerfile: Dockerfile
+  #   container_name: input-server
+  #   ports:
+  #     - "8000:8000"
+  #   restart: always
+  #   networks:
+  #     - mlac
+  #   volumes:
+  #     - ../data:/app/data
+  #   depends_on:
+  #     - mysql-db
+
   mysql-db:
     image: mysql:8.0.22
-    container_name: mysql-db
     platform: linux/amd64
-    ports:
-      - "3307:3306"
+    container_name: mysql-db
     environment:
       MYSQL_ROOT_PASSWORD: qwer1234
-      MYSQL_DATABASE: mlac
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - mlac
 
 networks:
   mlac:
-    external: true
+    driver: bridge

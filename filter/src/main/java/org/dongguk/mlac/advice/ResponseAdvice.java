@@ -1,4 +1,4 @@
-package org.dongguk.mlac.interceptor.post;
+package org.dongguk.mlac.advice;
 
 import io.micrometer.common.lang.NonNull;
 import org.dongguk.mlac.dto.common.ResponseDto;
@@ -11,16 +11,25 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 @RestControllerAdvice(basePackages = "org.donnguk.mlac")
-public class ResponseInterceptor implements ResponseBodyAdvice<Object> {
+public class ResponseAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
-    public boolean supports(@NonNull MethodParameter returnType, @NonNull Class converterType) {
+    public boolean supports(
+            @NonNull MethodParameter returnType,
+            @NonNull Class converterType
+    ) {
         return true;
     }
 
     @Override
-    public Object beforeBodyWrite(Object body, MethodParameter returnType, @NonNull MediaType selectedContentType,
-                                  @NonNull Class selectedConverterType, @NonNull ServerHttpRequest request, @NonNull ServerHttpResponse response) {
+    public Object beforeBodyWrite(
+            Object body,
+            MethodParameter returnType,
+            @NonNull MediaType selectedContentType,
+            @NonNull Class selectedConverterType,
+            @NonNull ServerHttpRequest request,
+            @NonNull ServerHttpResponse response
+    ) {
         if (returnType.getParameterType() == ResponseDto.class) {
             HttpStatus status = ((ResponseDto<?>) body).httpStatus();
             response.setStatusCode(status);

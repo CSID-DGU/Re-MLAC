@@ -1,4 +1,9 @@
 FROM openjdk:17-slim
-ARG JAR_FILE=build/libs/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+
+WORKDIR /app
+
+ARG JAR_PATH=./build/libs
+
+COPY ${JAR_PATH}/*.jar ./app.jar
+
+CMD ["java","-jar","./app.jar", "--spring.profiles.active=dev"]

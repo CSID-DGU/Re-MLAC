@@ -3,10 +3,10 @@
 # Stop and remove all container
 docker compose down
 docker rmi re-mlac-input-server
-docker rmi re-mlac-filter-server
-docker rmi re-mlac-fw-server
-docker rmi re-mlac-ws-server
-docker rmi re-mlac-was-server
+docker rmi re-mlac-origin-server
+docker rmi re-mlac-virtual-firewall
+docker rmi re-mlac-virtual-web-server
+docker rmi re-mlac-virtual-web-application-server
 
 rm -rf filter/src/main/resources
 rm -rf fw/src/main/resources
@@ -20,11 +20,10 @@ mkdir -p fw/src/main/resources
 mkdir -p ws/src/main/resources
 mkdir -p was/src/main/resources
 
-cp properties/filter/application.yml filter/src/main/resources
-cp properties/fw/application.yml fw/src/main/resources
-cp properties/ws/application.yml ws/src/main/resources
-cp properties/ws/data.sql ws/src/main/resources
-cp properties/was/application.yml was/src/main/resources
+cp -r properties/virtual/ filter/src/main/resources
+cp -r properties/virtual/ fw/src/main/resources
+cp -r properties/virtual/ ws/src/main/resources
+cp -r properties/virtual/ was/src/main/resources
 cp properties/input/.env input
 
 # Build the project
