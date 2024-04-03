@@ -1,7 +1,6 @@
 package org.dongguk.mlac.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.dongguk.mlac.domain.WebServerLog;
 import org.dongguk.mlac.dto.type.ELogStatus;
 import org.dongguk.mlac.event.CreatePipelineEvent;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class WebServerLogService {
     private final WebServerLogRepository webServerLogRepository;
 

@@ -22,6 +22,10 @@ public class IPStateService {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
+    /**
+     * @description IPState를 생성하거나 업데이트 해주는 메소드
+     * @param requestDto
+     */
     @Transactional
     public void createOrUpdateIPState(FilterRequestDto requestDto) {
         EOrganizer organizer = EOrganizer.fromEAttack(requestDto.attackType());
@@ -54,7 +58,11 @@ public class IPStateService {
                 .organizer(organizer).build()
         );
     }
-
+    /**
+     * @description 옵저빙시에 IPState를 업데이트 해주는 메소드
+     * @param ip
+     * @param requestDto
+     */
     @Deprecated
     @Transactional
     public void updateIPState(String ip, SystemRequestDto requestDto) {

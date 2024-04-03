@@ -50,7 +50,10 @@ public class PacketService {
 
     @Value("${virtual-web-application-server}")
     private String webApplicationServerUrl;
-
+    
+    /**
+     * @description 검증을 위한 메소드
+     */
     public void filter(PacketRequestDto requestDto){
         Long inputId = requestDto.inputId();
         LocalDateTime now = LocalDateTime.now();
@@ -146,6 +149,11 @@ public class PacketService {
         );
     }
 
+
+    /**
+     * @param map
+     * @description body안에 key 값이 존재하면 반환해주는 메소드 
+     */
     private Optional<String> refineString(Map<String, String> map, String key){
         return Optional.ofNullable(map.get(key));
     }

@@ -22,6 +22,10 @@ public class PipelineService {
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
+    /**
+     * @param requestDto
+     * @description Pipeline을 저장하는 메소드
+     */
     public void savePipeline(FilterResultDto requestDto) {
         EOrganizer organizer = EOrganizer.fromEAttack(requestDto.attackType());
         String script = requestDto.body().get("script");
@@ -30,6 +34,7 @@ public class PipelineService {
         if (!correspondedWebServer(organizer, script)) {
             return;
         }
+
 
         // 해당 script에 대한 regex를 찾아서 pipeline을 만듦
         List<Regex> regexes = regexRepository.findAllByDummyScriptContent(script);

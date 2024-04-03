@@ -20,7 +20,10 @@ public class UserService {
     private final UserRepository userRepository;
 
     private final ApplicationEventPublisher applicationEventPublisher;
-
+    /**
+     * @description UserState를 업데이트 해주는 함수
+     * @param requestDto
+     */
     @Transactional
     public void updateUserState(UserStateRequestDto requestDto){
         EOrganizer organizer = EOrganizer.fromEAttack(requestDto.attackType());
