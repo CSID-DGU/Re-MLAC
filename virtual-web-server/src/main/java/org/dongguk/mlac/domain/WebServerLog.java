@@ -45,4 +45,5 @@ public class WebServerLog {
         this.organizer = organizer;
         this.createdAt = LocalDateTime.now();
     }
+
 }

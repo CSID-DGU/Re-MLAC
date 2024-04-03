@@ -62,6 +62,7 @@ public class PacketService {
                 Boolean.TRUE
         );
 
+        // 만약 막혀있는 ip 그리고 port가 존재한다면, PackectLogService로 이벤트 전파 후 return
         if (firewallLogOptional.isPresent()) {
             applicationEventPublisher.publishEvent(BlockPacketEvent.builder()
                     .inputId(inputId)
@@ -74,9 +75,12 @@ public class PacketService {
         // 2. Web Server에서 막히는지 확인(단, Script가 있는 경우에만 확인)
         Optional<String> script = refineString(requestDto.body(), "script");
 
+        // 만약 scirpt가 존재한다면 
         if (script.isPresent()) {
+            // db에 저장된 정규식(pipeline) 다 가져오기
             Pipeline pipeline = pipelineRepository.findAll().stream()
                     .filter(p -> {
+                        // 각각의 정규식을 기반으로 대소문자 구분 없이 패턴화
                         Pattern pattern = Pattern.compile(p.getRegex(), Pattern.CASE_INSENSITIVE);
                         Matcher matcher = pattern.matcher(script.get());
 
@@ -85,6 +89,7 @@ public class PacketService {
                     .findFirst()
                     .orElse(null);
 
+            // 만약 해당 script에 대한 정규식이 존재한다면, PacketLogService로 이벤트 전파 후 return
             if(pipeline != null) {
                 applicationEventPublisher.publishEvent(BlockPacketEvent.builder()
                         .inputId(inputId)
@@ -99,17 +104,18 @@ public class PacketService {
         // 3. Web Application Server에서 막히는지 확인
         Optional<String> username = refineString(requestDto.body(), "username");
 
+        // 만약 username가 존재한다면
         if (username.isPresent()) {
             User user = userRepository.findByUsernameAndIsBlocked(username.get(),  Boolean.TRUE)
                     .orElse(null);
 
+            // 만약 해당 username에 대한 사용자가 존재한다면, PacketLogService로 이벤트 전파 후 return
             if(user != null) {
                 applicationEventPublisher.publishEvent(BlockPacketEvent.builder()
                         .inputId(inputId)
                         .defendedLocation(ELocation.WEB_APPLICATION_SERVER)
                         .cameInAt(now).build()
                 );
-
                 return;
             }
         }

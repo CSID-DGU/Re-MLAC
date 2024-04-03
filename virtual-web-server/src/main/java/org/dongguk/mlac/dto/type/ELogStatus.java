@@ -6,11 +6,8 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ELogStatus {
-    CREATE("CREATE"),
-    UPDATE("UPDATE"),
-    DELETE("DELETE"),
-
-    ;
+    BLOCK("BLOCK"),
+    UNBLOCK("UNBLOCK");
 
     private final String value;
 }

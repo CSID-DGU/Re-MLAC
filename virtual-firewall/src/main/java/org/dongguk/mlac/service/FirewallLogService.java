@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class FirewallLogService {
     private final FirewallLogRepository firewallLogRepository;
 
+    // 이벤트를 받아 firewallLog 생성
     @Async @EventListener
     public void saveFirewallLog(CreateIPStateEvent event) {
         firewallLogRepository.save(FirewallLog.builder()
@@ -25,6 +26,7 @@ public class FirewallLogService {
         );
     }
 
+    // 이벤트를 받아 firewallLog 업데이트
     @Async @EventListener
     public void saveFirewallLog(UpdateIPStateEvent event) {
         firewallLogRepository.save(FirewallLog.builder()

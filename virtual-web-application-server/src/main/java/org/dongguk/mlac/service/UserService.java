@@ -27,6 +27,7 @@ public class UserService {
         String username = (String) requestDto.body().get("username");
         Boolean isBlocked = (Boolean) requestDto.body().get("is_blocked");
 
+        // username이 없거나, WebApplicationServer에 해당하지 않거나, isBlocked 없으면 return
         if (!correspondedWebApplicationServer(organizer, username, isBlocked)) {
             return;
         }
@@ -50,6 +51,7 @@ public class UserService {
 
         user.updateBlock(isBlocked);
 
+        // Event 전파
         applicationEventPublisher.publishEvent(UpdateUserStateEvent.builder()
                 .username(user.getUsername())
                 .area(user.getArea())
