@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 public class WebApplicationLogService {
     private final WebApplicationLogRepository webApplicationLogRepository;
 
-    // 이벤트를 받아 WebApplicationLog 생성
+    /**
+     * @description 이벤트를 받아 WebApplicationLog 생성
+     * @param event
+     */
     @Async @EventListener
     public void saveWebApplicationServerLog(UpdateUserStateEvent event) {
         webApplicationLogRepository.save(WebApplicationServerLog.builder()

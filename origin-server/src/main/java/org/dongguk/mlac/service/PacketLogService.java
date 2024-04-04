@@ -14,7 +14,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PacketLogService {
     private final PacketLogRepository packetLogRepository;
-    // 이벤트를 받아 Pass된 packetLog 생성
+    /**
+     * @description 이벤트를 받아 Pass된 packetLog 생성
+     * @param event
+     */
     @Async @EventListener
     public void savePacketLog(PassPacketEvent event) {
         packetLogRepository.save(PacketLog.builder()
@@ -24,7 +27,10 @@ public class PacketLogService {
         );
     }
 
-    // 이벤트를 받아 Block된 packetLog 생성
+    /**
+     * @description 이벤트를 받아 Block된 packetLog 생성
+     * @param event
+     */
     @Async @EventListener
     public void savePacketLog(BlockPacketEvent event) {
         packetLogRepository.save(PacketLog.builder()

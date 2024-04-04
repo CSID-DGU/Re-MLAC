@@ -14,12 +14,15 @@ import org.springframework.stereotype.Service;
 public class WebServerLogService {
     private final WebServerLogRepository webServerLogRepository;
 
-    // 이벤트를 받아 WebServerLog 생성
+    /**
+     * @description 이벤트를 받아 WebServerLog 생성
+     * @param event
+     */
     @Async @EventListener
     public void saveWebServerLog(CreatePipelineEvent event) {
         webServerLogRepository.save(WebServerLog.builder()
                 .regex(event.regex())
-                .status(ELogStatus.BLOCK)
+                .status(ELogStatus.CREATE)
                 .organizer(event.organizer())
                 .build()
         );
