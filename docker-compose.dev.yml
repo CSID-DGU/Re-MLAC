@@ -1,34 +1,29 @@
 version: "3"
 
 services:
-  automatic-input:
-    build:
-      context: ./automatic-input
-      dockerfile: Dockerfile
-    image: re-mlac-automatic-input
-    container_name: automatic-input
-    ports:
-      - "8000:8000"
-    restart: always
-    networks:
-      - mlac
-    volumes:
-      - ./data:/app/data
-    depends_on:
-      - mysql-db
-      - origin-server
-
   origin-server:
     build:
       context: ./origin-server
       dockerfile: Dockerfile
     image: re-mlac-origin-server
-    container_name: origin-server
     restart: always
     ports:
       - "8080:8080"
     environment:
       TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: dev
+      MYSQL_HOST: mysql-db
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: qwer1234
+      ANALYSIS_SERVER_HOST: ${ANALYSIS_SERVER_HOST}
+      ANALYSIS_SERVER_PORT: ${ANALYSIS_SERVER_PORT}
+      VIRTUAL_FIREWALL_HOST: virtual-firewall
+      VIRTUAL_FIREWALL_PORT: 8080
+      VIRTUAL_WEB_SERVER_HOST: virtual-web-server
+      VIRTUAL_WEB_SERVER_PORT: 8080
+      VIRTUAL_WEB_APPLICATION_SERVER_HOST: virtual-web-application-server
+      VIRTUAL_WEB_APPLICATION_SERVER_PORT: 8080
     networks:
       - mlac
     depends_on:
@@ -42,10 +37,14 @@ services:
       context: ./virtual-firewall
       dockerfile: Dockerfile
     image: re-mlac-virtual-firewall
-    container_name: virtual-firewall
     restart: always
     environment:
       TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: dev
+      MYSQL_HOST: mysql-db
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: qwer1234
     networks:
       - mlac
     ports:
@@ -58,10 +57,14 @@ services:
       context: ./virtual-web-server
       dockerfile: Dockerfile
     image: re-mlac-virtual-web-server
-    container_name: virtual-webserver
     restart: always
     environment:
       TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: dev
+      MYSQL_HOST: mysql-db
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: qwer1234
     networks:
       - mlac
     ports:
@@ -74,10 +77,14 @@ services:
       context: ./virtual-web-application-server
       dockerfile: Dockerfile
     image: re-mlac-virtual-web-application-server
-    container_name: virtual-web-application-server
     restart: always
     environment:
       TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: dev
+      MYSQL_HOST: mysql-db
+      MYSQL_PORT: 3306
+      MYSQL_USER: root
+      MYSQL_PASSWORD: qwer1234
     networks:
       - mlac
     ports:
@@ -96,8 +103,7 @@ services:
     volumes:
       - ./data/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
-      mlac:
-        ipv4_address: 172.20.0.2
+      - mlac
 
 networks:
   mlac:

@@ -1,0 +1,404 @@
+version: "3"
+
+services:
+  origin-server-one:
+    build:
+      context: ./origin-server
+      dockerfile: Dockerfile
+    image: re-mlac-origin-server
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      ANALYSIS_SERVER_HOST: ${ANALYSIS_SERVER_HOST}
+      ANALYSIS_SERVER_PORT: ${ANALYSIS_SERVER_PORT}
+      VIRTUAL_FIREWALL_HOST: virtual-firewall-one
+      VIRTUAL_FIREWALL_PORT: 8080
+      VIRTUAL_WEB_SERVER_HOST: virtual-web-server-one
+      VIRTUAL_WEB_SERVER_PORT: 8080
+      VIRTUAL_WEB_APPLICATION_SERVER_HOST: virtual-web-application-server-one
+      VIRTUAL_WEB_APPLICATION_SERVER_PORT: 8080
+    networks:
+      - one
+    depends_on:
+      - virtual-firewall-one
+      - virtual-web-server-one
+      - virtual-web-application-server-one
+
+  origin-server-two:
+    build:
+      context: ./origin-server
+      dockerfile: Dockerfile
+    image: re-mlac-origin-server
+    restart: always
+    ports:
+      - "8081:8080"
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      ANALYSIS_SERVER_HOST: ${ANALYSIS_SERVER_HOST}
+      ANALYSIS_SERVER_PORT: ${ANALYSIS_SERVER_PORT}
+      VIRTUAL_FIREWALL_HOST: virtual-firewall-two
+      VIRTUAL_FIREWALL_PORT: 8080
+      VIRTUAL_WEB_SERVER_HOST: virtual-web-server-two
+      VIRTUAL_WEB_SERVER_PORT: 8080
+      VIRTUAL_WEB_APPLICATION_SERVER_HOST: virtual-web-application-server-two
+      VIRTUAL_WEB_APPLICATION_SERVER_PORT: 8080
+    networks:
+      - two
+    depends_on:
+      - virtual-firewall-two
+      - virtual-web-server-two
+      - virtual-web-application-server-two
+
+  origin-server-three:
+    build:
+      context: ./origin-server
+      dockerfile: Dockerfile
+    image: re-mlac-origin-server
+    restart: always
+    ports:
+      - "8082:8080"
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      ANALYSIS_SERVER_HOST: ${ANALYSIS_SERVER_HOST}
+      ANALYSIS_SERVER_PORT: ${ANALYSIS_SERVER_PORT}
+      VIRTUAL_FIREWALL_HOST: virtual-firewall-three
+      VIRTUAL_FIREWALL_PORT: 8080
+      VIRTUAL_WEB_SERVER_HOST: virtual-web-server-three
+      VIRTUAL_WEB_SERVER_PORT: 8080
+      VIRTUAL_WEB_APPLICATION_SERVER_HOST: virtual-web-application-server-three
+      VIRTUAL_WEB_APPLICATION_SERVER_PORT: 8080
+    networks:
+      - three
+    depends_on:
+      - virtual-firewall-three
+      - virtual-web-server-three
+      - virtual-web-application-server-three
+
+  origin-server-four:
+    build:
+      context: ./origin-server
+      dockerfile: Dockerfile
+    image: re-mlac-origin-server
+    restart: always
+    ports:
+      - "8083:8080"
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      ANALYSIS_SERVER_HOST: ${ANALYSIS_SERVER_HOST}
+      ANALYSIS_SERVER_PORT: ${ANALYSIS_SERVER_PORT}
+      VIRTUAL_FIREWALL_HOST: virtual-firewall-four
+      VIRTUAL_FIREWALL_PORT: 8080
+      VIRTUAL_WEB_SERVER_HOST: virtual-web-server-four
+      VIRTUAL_WEB_SERVER_PORT: 8080
+      VIRTUAL_WEB_APPLICATION_SERVER_HOST: virtual-web-application-server-four
+      VIRTUAL_WEB_APPLICATION_SERVER_PORT: 8080
+    networks:
+      - four
+    depends_on:
+      - virtual-firewall-four
+      - virtual-web-server-four
+      - virtual-web-application-server-four
+
+  origin-server-five:
+    build:
+      context: ./origin-server
+      dockerfile: Dockerfile
+    image: re-mlac-origin-server
+    restart: always
+    ports:
+      - "8084:8080"
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      ANALYSIS_SERVER_HOST: ${ANALYSIS_SERVER_HOST}
+      ANALYSIS_SERVER_PORT: ${ANALYSIS_SERVER_PORT}
+      VIRTUAL_FIREWALL_HOST: virtual-firewall-five
+      VIRTUAL_FIREWALL_PORT: 8080
+      VIRTUAL_WEB_SERVER_HOST: virtual-web-server-five
+      VIRTUAL_WEB_SERVER_PORT: 8080
+      VIRTUAL_WEB_APPLICATION_SERVER_HOST: virtual-web-application-server-five
+      VIRTUAL_WEB_APPLICATION_SERVER_PORT: 8080
+    networks:
+      - five
+    depends_on:
+      - virtual-firewall-five
+      - virtual-web-server-five
+      - virtual-web-application-server-five
+
+  virtual-firewall-one:
+    build:
+      context: ./virtual-firewall
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-firewall
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - one
+
+  virtual-firewall-two:
+    build:
+      context: ./virtual-firewall
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-firewall
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - two
+
+  virtual-firewall-three:
+    build:
+      context: ./virtual-firewall
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-firewall
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - three
+
+  virtual-firewall-four:
+    build:
+      context: ./virtual-firewall
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-firewall
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - four
+  
+  virtual-firewall-five:
+    build:
+      context: ./virtual-firewall
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-firewall
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - five
+
+  virtual-web-server-one:
+    build:
+      context: ./virtual-web-server
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-web-server
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - one
+
+  virtual-web-server-two:
+    build:
+      context: ./virtual-web-server
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-web-server
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - two
+
+  virtual-web-server-three:
+    build:
+      context: ./virtual-web-server
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-web-server
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - three
+
+  virtual-web-server-four:
+    build:
+      context: ./virtual-web-server
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-web-server
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - four
+
+  virtual-web-server-five:
+    build:
+      context: ./virtual-web-server
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-web-server
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - five
+
+  virtual-web-application-server-one:
+    build:
+      context: ./virtual-web-application-server
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-web-application-server
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - one
+
+  virtual-web-application-server-two:
+    build:
+      context: ./virtual-web-application-server
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-web-application-server
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - two
+
+  virtual-web-application-server-three:
+    build:
+      context: ./virtual-web-application-server
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-web-application-server
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - three
+
+  virtual-web-application-server-four:
+    build:
+      context: ./virtual-web-application-server
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-web-application-server
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - four
+
+  virtual-web-application-server-five:
+    build:
+      context: ./virtual-web-application-server
+      dockerfile: Dockerfile
+    image: re-mlac-virtual-web-application-server
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      ACTIVE_PROFILE: prod
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_PORT: ${MYSQL_PORT}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - five
+
+networks:
+  one:
+    driver: bridge
+  two:
+    driver: bridge
+  three:
+    driver: bridge
+  four:
+    driver: bridge
+  five:
+    driver: bridge

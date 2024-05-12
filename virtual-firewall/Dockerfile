@@ -2,8 +2,15 @@ FROM openjdk:17-slim
 
 WORKDIR /app
 
+ENV ACTIVE_PROFILE=${ACTIVE_PROFILE}
+
+ENV MYSQL_HOST=${MYSQL_HOST}
+ENV MYSQL_PORT=${MYSQL_PORT}
+ENV MYSQL_USER=${MYSQL_USER}
+ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
+
 ARG JAR_PATH=./build/libs
 
 COPY ${JAR_PATH}/*.jar ./app.jar
 
-CMD ["java","-jar","./app.jar", "--spring.profiles.active=dev"]
+CMD ["java","-jar","./app.jar", "--spring.profiles.active=${ACTIVE_PROFILE}", "-DMYSQL_HOST=${MYSQL_HOST}", "-DMYSQL_PORT=${MYSQL_PORT}", "-DMYSQL_USER=${MYSQL_USER}", "-DMYSQL_PASSWORD=${MYSQL_PASSWORD}"]
